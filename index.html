@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Marcus Cole — We The People News</title>
+<style>
+  :root{
+    --navy:#0b1a2b; --navy2:#122a44; --ink:#e8eef6; --muted:#8fa6bf;
+    --red:#c8102e; --line:#1d3a5c; --gold:#d4a24c;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:radial-gradient(1200px 600px at 50% -10%,#16324f 0%,var(--navy) 55%,#050c15 100%);
+    color:var(--ink); font-family:"Helvetica Neue",Arial,sans-serif;
+    display:flex; flex-direction:column; min-height:100%;
+  }
+  header{
+    display:flex; align-items:center; gap:14px;
+    padding:14px 22px; border-bottom:1px solid var(--line);
+    background:rgba(8,18,30,.82); backdrop-filter:blur(6px);
+  }
+  .mark{
+    width:38px;height:38px;border-radius:8px;flex:none;
+    background:linear-gradient(160deg,var(--red),#7d0a1d);
+    display:grid;place-items:center;font-weight:800;font-size:13px;letter-spacing:.5px;
+    color:#fff;box-shadow:0 2px 10px rgba(200,16,46,.35);
+  }
+  .brand{display:flex;flex-direction:column;line-height:1.15}
+  .brand b{font-size:15px;letter-spacing:.4px}
+  .brand span{font-size:10.5px;color:var(--muted);letter-spacing:2.2px;text-transform:uppercase}
+  .live{
+    margin-left:auto;display:flex;align-items:center;gap:7px;
+    font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);
+    border:1px solid var(--line);border-radius:999px;padding:6px 12px;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:#4a6076;transition:.25s}
+  .live.on .dot{background:#28c76f;box-shadow:0 0 9px #28c76f}
+  .live.on{color:#bfe9d2;border-color:#1f5c3f}
+
+  main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;gap:18px}
+  .stage{
+    position:relative;width:min(100%,760px);aspect-ratio:16/9;
+    border-radius:14px;overflow:hidden;border:1px solid var(--line);
+    background:#04101c; box-shadow:0 18px 50px rgba(0,0,0,.55);
+  }
+  #vid{width:100%;height:100%;object-fit:cover;display:block;background:#04101c}
+  .lower{
+    position:absolute;left:0;right:0;bottom:0;
+    background:linear-gradient(180deg,transparent,rgba(3,10,18,.94));
+    padding:26px 18px 14px;display:flex;align-items:flex-end;gap:12px;
+  }
+  .bar{width:4px;align-self:stretch;background:var(--red);border-radius:2px}
+  .lower h1{margin:0;font-size:15px;letter-spacing:.3px}
+  .lower p{margin:3px 0 0;font-size:11.5px;color:var(--muted);letter-spacing:1.4px;text-transform:uppercase}
+  .placeholder{
+    position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+    padding:26px;color:var(--muted);font-size:13px;line-height:1.6;
+  }
+  .placeholder b{color:var(--ink);display:block;margin-bottom:6px;font-size:14px}
+
+  .controls{width:min(100%,760px);display:flex;gap:10px;flex-wrap:wrap}
+  input[type=text]{
+    flex:1 1 260px;min-width:0;padding:13px 15px;border-radius:10px;
+    border:1px solid var(--line);background:#0a1725;color:var(--ink);font-size:14px;outline:none;
+  }
+  input[type=text]:focus{border-color:#2f6ea8;box-shadow:0 0 0 3px rgba(47,110,168,.18)}
+  button{
+    padding:13px 22px;border-radius:10px;border:0;cursor:pointer;
+    font-size:13.5px;font-weight:600;letter-spacing:.3px;
+    background:linear-gradient(160deg,var(--red),#96081f);color:#fff;
+  }
+  button:disabled{opacity:.45;cursor:not-allowed}
+  button.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:500}
+  .disclosure{
+    width:min(100%,760px);font-size:11px;color:var(--muted);
+    border-top:1px solid var(--line);padding-top:12px;letter-spacing:.2px;line-height:1.55;
+  }
+  .disclosure strong{color:#c9d8e8}
+</style>
+</head>
+<body>
+<header>
+  <div class="mark">WTP</div>
+  <div class="brand">
+    <b>We The People News</b>
+    <span>Investigative Broadcast</span>
+  </div>
+  <div class="live" id="status"><span class="dot"></span><span id="statusText">Connecting</span></div>
+</header>
+
+<main>
+  <div class="stage">
+    <video id="vid" autoplay playsinline></video>
+    <div class="placeholder" id="ph">
+      <div>
+        <b>Marcus Cole</b>
+        Lead anchor, We The People News<br />
+        Waiting for the live feed to come up.
+      </div>
+    </div>
+    <div class="lower">
+      <div class="bar"></div>
+      <div>
+        <h1>We The People News Investigates</h1>
+        <p>Holding Power Accountable</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <input type="text" id="say" placeholder="Ask Marcus something..." autocomplete="off" />
+    <button id="send" disabled>Speak</button>
+    <button id="connect" class="ghost">Connect</button>
+  </div>
+
+  <div class="disclosure">
+    <strong>Disclosure:</strong> Marcus Cole is an AI-generated presenter. Facial animation and
+    voice are synthesized. Editorial decisions and reporting are made by We The People News.
+    Marcus never reveals a confidential source.
+  </div>
+</main>
+
+<script>
+(function () {
+  const vid = document.getElementById('vid');
+  const ph = document.getElementById('ph');
+  const statusEl = document.getElementById('status');
+  const statusText = document.getElementById('statusText');
+  const sendBtn = document.getElementById('send');
+  const connBtn = document.getElementById('connect');
+  const input = document.getElementById('say');
+
+  let pc = null;
+  let sessionId = null;
+  let connected = false;
+
+  function setStatus(text, on) {
+    statusText.textContent = text;
+    statusEl.classList.toggle('on', !!on);
+  }
+
+  async function connect() {
+    if (pc) { try { pc.close(); } catch (e) {} pc = null; }
+    connected = false;
+    sendBtn.disabled = true;
+    setStatus('Connecting', false);
+
+    try {
+      pc = new RTCPeerConnection({
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'turn:hermes.wtpnews.org:3478', username: 'wtpnews', credential: '0069c366eaeb8c84e1fedeae160cd657' }
+        ]
+      });
+
+      pc.ontrack = (ev) => {
+        if (ev.streams && ev.streams[0]) {
+          vid.srcObject = ev.streams[0];
+        } else {
+          vid.srcObject = new MediaStream([ev.track]);
+        }
+        ph.style.display = 'none';
+        vid.play().catch(() => {});
+      };
+
+      pc.onconnectionstatechange = () => {
+        const st = pc.connectionState;
+        if (st === 'connected') {
+          connected = true;
+          sendBtn.disabled = false;
+          setStatus('Live', true);
+        } else if (st === 'failed' || st === 'disconnected' || st === 'closed') {
+          connected = false;
+          sendBtn.disabled = true;
+          setStatus(st === 'closed' ? 'Idle' : 'Offline', false);
+        }
+      };
+
+      // Receive only: we want Marcus's video and audio, not to publish ours.
+      pc.addTransceiver('video', { direction: 'recvonly' });
+      pc.addTransceiver('audio', { direction: 'recvonly' });
+
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+
+      const res = await fetch('/offer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sdp: offer.sdp, type: offer.type, avatar: 'marcus_cole_v2' })
+      });
+
+      if (!res.ok) throw new Error('signalling HTTP ' + res.status);
+      const answer = await res.json();
+      if (!answer || !answer.sdp) throw new Error('no answer from avatar server');
+
+      await pc.setRemoteDescription(new RTCSessionDescription(answer));
+      if (answer.sessionid) sessionId = answer.sessionid;
+    } catch (err) {
+      setStatus('Offline', false);
+      ph.style.display = 'grid';
+      ph.innerHTML = '<div><b>Feed unavailable</b>The avatar server did not answer. ' +
+        'It may be starting up or the media path is blocked.</div>';
+      console.warn('[avatar] connect failed:', err && err.message);
+    }
+  }
+
+  async function speak() {
+    const text = input.value.trim();
+    if (!text || !connected) return;
+    sendBtn.disabled = true;
+    try {
+      // Marcus's own voice: orchestrator /speak renders Cartesia when its key
+      // is set, otherwise falls back to LiveTalking edge-tts.
+      let res = await fetch('/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionid: sessionId, text: text })
+      });
+      if (!res.ok) throw new Error('speak HTTP ' + res.status);
+      input.value = '';
+    } catch (err) {
+      console.warn('[avatar] /speak failed, falling back to /human echo:', err && err.message);
+      try {
+        await fetch('/human', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: text,
+            type: 'echo',
+            interrupt: true,
+            sessionid: sessionId
+          })
+        });
+        input.value = '';
+      } catch (err2) {
+        console.warn('[avatar] speak failed:', err2 && err2.message);
+      }
+    } finally {
+      sendBtn.disabled = false;
+    }
+  }
+
+  sendBtn.addEventListener('click', speak);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') speak(); });
+  connBtn.addEventListener('click', connect);
+
+  connect();
+})();
+</script>
+</body>
+</html>
